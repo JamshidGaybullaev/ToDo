@@ -10,7 +10,7 @@ export interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ id, text, moveTodo }) => {
-  const [, drag] = useDrag(() => ({
+  const [, drag, preview] = useDrag(() => ({
     type: "TODO",
     item: { id, text },
     end: (item, monitor) => {

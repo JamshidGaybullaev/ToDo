@@ -22,6 +22,7 @@ const App: React.FC = () => {
     { store: doneStore, title: "Done", className: styles.done },
   ];
 
+  // Функция перемещения задач между списками
   const moveTodo = (id: number, text: string, monitor: DragSourceMonitor) => {
     const sourceStore = stores.find((s) => s.store.todos.find((todo) => todo.id === id));
     if (sourceStore) {
@@ -38,7 +39,13 @@ const App: React.FC = () => {
     <DndProvider backend={HTML5Backend}>
       <div className={styles.todoListContainer}>
         {stores.map((item, index) => (
-          <TodoList key={index} store={item.store} title={item.title} className={item.className} moveTodo={moveTodo} />
+          <TodoList
+            key={index}
+            store={item.store}
+            title={item.title}
+            className={item.className}
+            moveTodo={moveTodo}
+          />
         ))}
       </div>
     </DndProvider>
