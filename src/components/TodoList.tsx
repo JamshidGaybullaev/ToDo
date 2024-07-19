@@ -1,23 +1,27 @@
 // src/components/TodoList.tsx
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { observer } from "mobx-react";
+import { useDrop, DragSourceMonitor } from "react-dnd";
 import TodoStore from "../stores/TodoStore";
+import TodoItem from "./TodoItem";
 import styles from "./TodoList.module.css";
 
 interface TodoListProps {
   store: TodoStore;
   title: string;
   className: string;
+  moveTodo: (id: number, text: string, monitor: DragSourceMonitor) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ store, title, className }) => {
+const TodoList: React.FC<TodoListProps> = ({ store, title, className, moveTodo }) => {
   const [newTodo, setNewTodo] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleAddTodo = () => {
-    if (newTodo.trim() !== "") {
+    if (newTodo !== "") {
       store.addTodo(newTodo);
       setNewTodo("");
       setIsAdding(false);
@@ -30,7 +34,7 @@ const TodoList: React.FC<TodoListProps> = ({ store, title, className }) => {
   };
 
   const handleSaveTodo = (id: number) => {
-    if (editingText.trim() !== "") {
+    if (editingText !== "") {
       store.updateTodo(id, editingText);
       setEditingId(null);
     }
@@ -46,26 +50,38 @@ const TodoList: React.FC<TodoListProps> = ({ store, title, className }) => {
     setIsAdding(!isAdding);
   };
 
+  useEffect(() => {
+    if (isAdding && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isAdding]);
+
+  const [, drop] = useDrop({
+    accept: "TODO",
+    drop: () => ({ title }),
+  });
+
   return (
-    <div className={`${styles.todoList} ${className}`}>
+    <div ref={drop} className={`${styles.todoList} ${className}`}>
       <h1>{title}</h1>
       {!isAdding && (
-        <button onClick={toggleAddTodo}>New</button>
+        <button className={styles.new} onClick={toggleAddTodo}>New</button>
       )}
       {isAdding && (
         <div>
           <input
+            ref={inputRef}
             type="text"
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
           />
-          <button onClick={handleAddTodo}>Submit</button>
+          <button className={styles.submit} onClick={handleAddTodo}>Submit</button>
         </div>
       )}
       <div className={styles.taskContainer}>
         <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
-          {store.todos.map((todo) => (
+          {store.todos.map((todo, index) => (
             <li key={todo.id} style={{ marginBottom: "10px" }}>
               {editingId === todo.id ? (
                 <div>
@@ -76,16 +92,15 @@ const TodoList: React.FC<TodoListProps> = ({ store, title, className }) => {
                     onKeyPress={(e) => handleKeyPress(e, todo.id)}
                   />
                   <div className={styles.buttonGroup}>
-                    <button onClick={() => handleSaveTodo(todo.id)}>Save</button>
-                    <button onClick={() => setEditingId(null)}>Cancel</button>
+                    <button className={styles.save} onClick={() => handleSaveTodo(todo.id)}>Save</button>
                   </div>
                 </div>
               ) : (
                 <div className={styles.buttonGroup}>
-                  <span>{todo.text}</span>
+                  <TodoItem id={todo.id} text={todo.text} moveTodo={moveTodo} />
                   <div>
-                    <button onClick={() => handleEditTodo(todo.id, todo.text)}>Edit</button>
-                    <button onClick={() => store.removeTodo(todo.id)}>Delete</button>
+                    <button className={styles.edit} onClick={() => handleEditTodo(todo.id, todo.text)}>Edit</button>
+                    <button className={styles.delete} onClick={() => store.removeTodo(todo.id)}>Delete</button>
                   </div>
                 </div>
               )}

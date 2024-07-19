@@ -1,75 +1,131 @@
 /* src/components/TodoList.module.css */
 .todoListContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  
-  .todoList {
-    width: 250px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .todoList h1 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-  }
-  
-  .todoList input[type="text"] {
-    width: calc(100% - 22px);
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .todoList button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .todoList button:hover {
-    background-color: #0056b3;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .taskContainer {
-    flex-grow: 1;
-  }
-  
-  
-  .I {
-    background-color: red;
-  }
-  
-  .Am {
-    background-color: yellow;
-  }
-  
-  .Very {
-    background-color: green;
-  }
-  
-  .Very2 {
-    background-color: #ffcccc;
-  }
-  
-  .Clever {
-    background-color: orange;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.todoList {
+  width: 250px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.todoList h1 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.todoList input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.todoList button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskContainer {
+  flex-grow: 1;
+}
+
+.backlog {
+  background-color: rgb(109, 109, 168); 
+}
+
+.todo {
+  background-color: rgb(211, 171, 98); 
+}
+
+.inProgress {
+  background-color: rgb(194, 92, 92);
+}
+
+.test {
+  background-color: violet; 
+}
+
+.done {
+  background-color: rgb(105, 207, 147) ;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background-color: darkred;
+}
+
+.edit {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit:hover{
+  background-color: darkorange;
+}
+
+.new {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.new:hover {
+  background-color: darkblue;
+}
+
+.submit , .save{
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit , .save:hover{
+  background-color: darkgreen;
+}
+
+
+
+.todoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
